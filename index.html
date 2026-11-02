@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Lelouch AI — Asisten AI Strategis</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#05030f;--panel:#0d0a22;--line:#251f4d;--text:#ecebff;--mute:#8d8ab5;--vio:#7c3aed;--crim:#ec4899;--gold:#a5b4fc;color-scheme:dark}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%}
+body{background:var(--bg);color:var(--text);font:400 15px/1.65 Inter,system-ui,sans-serif;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0)}
+.cz{font-family:Cinzel,Georgia,serif}
+button{font:inherit;cursor:pointer}
+.hide{display:none!important}
+#glow{position:fixed;inset:0;z-index:-2;background:radial-gradient(800px 500px at 15% 0,#4c1d9566,transparent 60%),radial-gradient(700px 450px at 92% 22%,#1d4ed855,transparent 60%),radial-gradient(600px 400px at 50% 100%,#ec489922,transparent 60%),var(--bg)}
+#bg{position:fixed;inset:0;z-index:-1;pointer-events:none}
+#landing,#app{flex:1;min-height:0}
+#landing{overflow-y:auto;overflow-x:hidden;scroll-behavior:smooth}
+#app{display:flex;flex-direction:column}
+.logo{flex:none;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-size:20px;color:#0a0620;background:linear-gradient(135deg,var(--gold),var(--vio));box-shadow:0 0 18px #7c3aed55}
+.brand{font-weight:700;letter-spacing:.18em;font-size:17px;background:linear-gradient(90deg,var(--gold),#c7d2fe);-webkit-background-clip:text;background-clip:text;color:transparent}
+.nav{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:12px;padding:14px 22px;backdrop-filter:blur(14px);background:#05030f99;border-bottom:1px solid #ffffff0d}
+.links{margin-left:auto;margin-right:10px;display:flex;gap:22px}
+.links button{background:none;border:0;color:var(--mute);font-size:14px}.links button:hover{color:var(--gold)}
+.cta{border:0;border-radius:30px;padding:11px 24px;font-weight:500;color:#0a0620;background:linear-gradient(135deg,var(--gold),#c7d2fe 60%,var(--vio));box-shadow:0 8px 28px #7c3aed55;transition:.25s}
+.cta:hover{transform:translateY(-2px);box-shadow:0 12px 36px #7c3aed99}
+.cta.o{background:none;color:var(--text);border:1px solid var(--line);box-shadow:none}.cta.o:hover{border-color:var(--gold);color:var(--gold)}
+.sec{max-width:1000px;margin:0 auto;padding:64px 20px}
+.hero{text-align:center;padding-top:7vh;position:relative}
+.badge{display:inline-block;border:1px solid var(--line);background:#120d2e99;color:var(--gold);border-radius:30px;padding:6px 16px;font-size:12px;letter-spacing:.14em}
+.hero h1{font-size:clamp(38px,9vw,78px);line-height:1.05;font-weight:700;margin:22px 0 18px}
+.grad{background:linear-gradient(90deg,var(--gold),#c7d2fe,var(--crim));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--mute);max-width:520px;margin:0 auto 30px;font-weight:300;font-size:16px}
+.btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.stage{margin-top:26px;display:grid;place-items:center}
+.orn{text-align:center;color:var(--gold);letter-spacing:.7em;opacity:.65;padding-top:10px}
+.fl{animation:fl 6s ease-in-out infinite}@keyframes fl{50%{transform:translateY(-10px)}}
+.board{display:grid;grid-template:repeat(8,1fr)/repeat(8,1fr);aspect-ratio:1;width:min(330px,76vw);background:conic-gradient(#1f1540 25%,#0a0614 0 50%,#1f1540 0 75%,#0a0614 0) 0 0/25% 25%;border:1px solid var(--line);border-radius:6px;transform:rotateX(58deg) rotateZ(-24deg);box-shadow:0 50px 90px #7c3aed66,0 0 0 1px #a5b4fc22}
+.board i{font-style:normal;display:grid;place-items:center;font-size:clamp(20px,6vw,32px);color:var(--gold);text-shadow:0 0 14px var(--vio)}
+.board i.r{color:var(--crim);text-shadow:0 0 16px var(--crim)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:14px;text-align:center}
+.stats b{display:block;font-size:38px;font-weight:700;color:var(--gold)}.stats span{color:var(--mute);font-size:13px}
+.h2{font-size:clamp(28px,6vw,42px);text-align:center;font-weight:700;margin-bottom:10px}
+.sub{text-align:center;color:var(--mute);max-width:480px;margin:0 auto 40px;font-weight:300}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+.card{position:relative;background:linear-gradient(160deg,#120d2e,#07051a);border:1px solid var(--line);border-radius:20px;padding:24px;transition:.3s}
+.card:hover{border-color:var(--vio);transform:translateY(-5px);box-shadow:0 14px 40px #7c3aed33,0 0 0 1px #a5b4fc33}
+.ic{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;font-size:24px;color:var(--gold);background:#1a1445;border:1px solid var(--line);margin-bottom:14px}
+.card h3{font-size:17px;font-weight:500;margin-bottom:6px}.card p{color:var(--mute);font-size:14px}
+.steps{counter-reset:s}.steps .card{padding-top:52px}
+.steps .card:before{counter-increment:s;content:"0" counter(s);position:absolute;top:12px;left:24px;font-family:Cinzel,serif;font-size:30px;color:var(--crim)}
+.final{text-align:center;border:1px solid var(--line);border-radius:28px;padding:56px 22px;background:radial-gradient(500px 220px at 50% 0,#7c3aed33,transparent),#07051a}
+.final p{color:var(--mute);margin:10px 0 26px}
+.foot{text-align:center;color:var(--mute);font-size:12px;padding:10px 20px calc(30px + env(safe-area-inset-bottom,0))}
+.rv{opacity:0;transform:translateY(26px);transition:opacity .8s,transform .8s}.rv.in{opacity:1;transform:none}
+/* chat */
+header{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line);backdrop-filter:blur(10px)}
+.st{margin-left:auto;display:flex;align-items:center;gap:8px;color:var(--mute);font-size:12px}
+.dot{width:7px;height:7px;border-radius:50%;background:#7fd1a0;box-shadow:0 0 8px #7fd1a0}
+.ghost{background:none;border:1px solid var(--line);color:var(--mute);border-radius:20px;padding:5px 12px;font-size:12px}.ghost:hover{color:var(--gold);border-color:var(--gold)}
+main{flex:1;overflow-y:auto;padding:24px 16px}
+.wrap{max-width:760px;margin:0 auto}
+.chero{text-align:center;padding:7vh 0 20px}
+.chero .big{font-size:56px;color:var(--gold);text-shadow:0 0 30px var(--vio)}
+.chero h1{font-size:clamp(30px,6vw,46px);font-weight:700;margin:6px 0}
+.chero p{color:var(--mute);margin:10px auto 24px;max-width:420px;font-weight:300}
+.chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.chip{background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:14px;padding:10px 16px;font-size:13px;transition:.25s}
+.chip:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:0 6px 20px #7c3aed33}
+.msg{display:flex;gap:12px;margin:18px 0;animation:in .4s ease}@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.msg.u{justify-content:flex-end}
+.av{flex:none;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:16px;color:#0a0620;background:linear-gradient(135deg,var(--gold),var(--vio));margin-top:2px}
+.col{max-width:86%;min-width:0}
+.bub{padding:12px 16px;border-radius:16px;word-wrap:break-word}
+.u .bub{max-width:86%;background:#14123a;border:1px solid #3b3a8a;border-top-right-radius:4px}
+.a .bub{background:var(--panel);border:1px solid var(--line);border-top-left-radius:4px}
+.bub code{background:#000;color:var(--gold);padding:1px 6px;border-radius:5px;font-size:13px}
+.bub pre{background:#030210;border:1px solid var(--line);border-radius:10px;padding:12px;overflow-x:auto;margin:8px 0;font-size:13px}
+.bub pre code{padding:0;background:none}
+.tools{margin:6px 4px 0;opacity:.6}.tbtn{background:none;border:0;color:var(--mute);font-size:12px;padding:0}.tbtn:hover{color:var(--gold)}
+.typing span{display:inline-block;width:6px;height:6px;margin:0 2px;border-radius:50%;background:var(--gold);animation:b 1s infinite}
+.typing span:nth-child(2){animation-delay:.15s;background:var(--vio)}.typing span:nth-child(3){animation-delay:.3s;background:var(--crim)}
+.typing em{font-style:normal;color:var(--mute);font-size:12px;margin-left:8px}
+@keyframes b{0%,60%,100%{opacity:.25;transform:none}30%{opacity:1;transform:translateY(-4px)}}
+footer{padding:12px 16px calc(14px + env(safe-area-inset-bottom,0));border-top:1px solid var(--line);background:#05030fcc}
+.box{max-width:760px;margin:0 auto;display:flex;gap:10px;align-items:flex-end;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:8px 8px 8px 16px;transition:.25s}
+.box:focus-within{border-color:var(--vio);box-shadow:0 0 0 3px #7c3aed22}
+textarea{flex:1;background:none;border:0;outline:0;color:var(--text);font:inherit;resize:none;max-height:140px;padding:8px 0}
+textarea::placeholder{color:var(--mute)}
+#send{flex:none;width:40px;height:40px;border-radius:50%;border:0;background:linear-gradient(135deg,var(--gold),var(--vio));color:#0a0620;font-size:18px}
+#send:disabled{opacity:.4}
+.note{text-align:center;color:var(--mute);font-size:11px;margin-top:8px}
+@media(max-width:600px){.links{display:none}.nav .cta{margin-left:auto;padding:9px 18px}}
+</style>
+</head>
+<body>
+<div id="glow"></div><canvas id="bg"></canvas>
+
+<div id="landing">
+ <nav class="nav"><div class="logo">✦</div><div class="brand cz">LELOUCH AI</div>
+  <div class="links"><button data-sc="fitur">Fitur</button><button data-sc="cara">Cara Kerja</button><button data-sc="mulai">Mulai</button></div>
+  <button class="cta" data-go="chat">Mulai Chat</button></nav>
+
+ <section class="sec hero">
+  <span class="badge rv">✦ ASISTEN AI GALAKSI</span>
+  <h1 class="cz rv">Jelajahi ide hingga<br><span class="grad">ujung galaksi.</span></h1>
+  <p class="rv">Lelouch AI membantu menyusun rencana, ide, tulisan, dan kode dengan ketenangan seluas angkasa dan perhitungan setajam bintang. Gratis, tanpa daftar.</p>
+  <div class="btns rv"><button class="cta" data-go="chat">Mulai Chat →</button><button class="cta o" data-sc="fitur">Lihat Fitur</button></div>
+  <div class="stage rv"><div class="fl"><svg viewBox="0 0 400 300" style="width:min(460px,92vw);height:auto;overflow:visible" aria-hidden="true">
+<defs><radialGradient id="pl" cx=".35" cy=".3"><stop offset="0" stop-color="#c7d2fe"/><stop offset=".45" stop-color="#7c3aed"/><stop offset="1" stop-color="#1a1445"/></radialGradient>
+<radialGradient id="ng"><stop offset="0" stop-color="#7c3aed" stop-opacity=".55"/><stop offset="1" stop-color="#7c3aed" stop-opacity="0"/></radialGradient>
+<linearGradient id="rn" x1="0" x2="1"><stop offset="0" stop-color="#ec4899" stop-opacity=".15"/><stop offset=".5" stop-color="#c7d2fe"/><stop offset="1" stop-color="#60a5fa" stop-opacity=".15"/></linearGradient>
+<clipPath id="fr"><rect x="0" y="150" width="400" height="150"/></clipPath></defs>
+<circle cx="200" cy="150" r="145" fill="url(#ng)"/>
+<g transform="rotate(-18 200 150)">
+<ellipse cx="200" cy="150" rx="175" ry="50" fill="none" stroke="#a5b4fc" stroke-opacity=".35" stroke-dasharray="3 6"/>
+<ellipse cx="200" cy="150" rx="135" ry="38" fill="none" stroke="#a5b4fc" stroke-opacity=".25" stroke-dasharray="2 5"/>
+<ellipse cx="200" cy="150" rx="108" ry="28" fill="none" stroke="url(#rn)" stroke-width="7"/>
+<circle cx="200" cy="150" r="58" fill="url(#pl)"/>
+<ellipse cx="200" cy="150" rx="108" ry="28" fill="none" stroke="url(#rn)" stroke-width="7" clip-path="url(#fr)"/>
+<circle r="6" fill="#c7d2fe"><animateMotion dur="20s" repeatCount="indefinite" path="M25,150 a175,50 0 1,0 350,0 a175,50 0 1,0 -350,0"/></circle>
+<circle r="4.5" fill="#ec4899"><animateMotion dur="12s" repeatCount="indefinite" path="M65,150 a135,38 0 1,1 270,0 a135,38 0 1,1 -270,0"/></circle>
+</g>
+<g fill="#c7d2fe"><circle cx="40" cy="40" r="1.6"/><circle cx="350" cy="60" r="2"/><circle cx="70" cy="260" r="1.4"/><circle cx="340" cy="250" r="1.8"/></g></svg></div></div>
+ </section>
+
+ <section class="sec"><div class="stats rv"><div><b class="cz">∞</b><span>Ruang untuk ide</span></div><div><b class="cz">24/7</b><span>Selalu siaga</span></div><div><b class="cz">100%</b><span>Gratis</span></div><div><b class="cz">0</b><span>Pendaftaran</span></div></div></section>
+
+ <div class="orn">✦ ☾ ✦</div>
+ <section class="sec" id="fitur"><h2 class="h2 cz rv">Konstelasi fitur</h2><p class="sub rv">Setiap bintang punya cahayanya masing-masing.</p>
+  <div class="grid">
+   <div class="card rv"><div class="ic">✦</div><h3>Perencanaan</h3><p>Susun rencana belajar, kerja, atau bisnis lengkap dengan langkah-langkahnya.</p></div>
+   <div class="card rv"><div class="ic">☾</div><h3>Ide Kreatif</h3><p>Nama brand, konsep konten, sampai ide proyek yang tidak biasa.</p></div>
+   <div class="card rv"><div class="ic">✧</div><h3>Jago Coding</h3><p>Minta kode HTML, JavaScript, dan lainnya dengan penjelasan singkat.</p></div>
+   <div class="card rv"><div class="ic">⚝</div><h3>Riwayat Tersimpan</h3><p>Obrolan tersimpan otomatis di perangkat dan tidak hilang saat refresh.</p></div>
+   <div class="card rv"><div class="ic">✺</div><h3>Cepat dengan Groq</h3><p>Ditenagai model Llama lewat Groq, dengan mode cadangan jika koneksi bermasalah.</p></div>
+   <div class="card rv"><div class="ic">❂</div><h3>Aman dengan .env</h3><p>Kunci API tersimpan di server, bukan di browser, jadi tidak bisa diintip.</p></div>
+  </div></section>
+
+ <div class="orn">✦ ☾ ✦</div>
+ <section class="sec" id="cara"><h2 class="h2 cz rv">Cara kerja</h2><p class="sub rv">Tiga langkah, langsung jalan.</p>
+  <div class="grid steps">
+   <div class="card rv"><h3>Buka chat</h3><p>Tekan Mulai Chat. Tidak ada login atau formulir.</p></div>
+   <div class="card rv"><h3>Sampaikan tujuan</h3><p>Ketik apa yang ingin kamu capai, sesederhana atau serumit apa pun.</p></div>
+   <div class="card rv"><h3>Terima strategi</h3><p>Dapatkan jawaban yang terstruktur dalam hitungan detik.</p></div>
+  </div></section>
+
+ <section class="sec" id="mulai"><div class="final rv"><h2 class="h2 cz">Siap meluncur ke <span class="grad">angkasa?</span></h2><p>Gratis dan langsung bisa dipakai.</p><button class="cta" data-go="chat">Mulai Chat Sekarang →</button></div></section>
+ <div class="foot">© 2026 Lelouch AI · Proyek fan-made bertema anime, tidak berafiliasi dengan pemilik karakternya · AI bisa keliru, periksa kembali informasi penting.</div>
+</div>
+
+<div id="app" class="hide">
+ <header><button class="ghost" data-go="home">←</button><div class="logo">✦</div><div class="brand cz">LELOUCH AI</div>
+  <div class="st"><span class="dot"></span><span id="mode">Online</span><button class="ghost" id="clear">Baru</button></div></header>
+ <main id="main"><div class="wrap" id="chat">
+  <div class="chero" id="hero"><div class="big">✦</div><h1 class="cz">Mau menjelajah <span class="grad">apa hari ini?</span></h1>
+   <p>Ceritakan tujuanmu. Saya bantu menyusun strateginya.</p>
+   <div class="chips"><button class="chip">Susun rencana belajar 30 hari</button><button class="chip">Bantu buat kode HTML sederhana</button><button class="chip">Kasih ide bisnis online</button><button class="chip">Ceritakan lelucon</button></div></div>
+ </div></main>
+ <footer><div class="box"><textarea id="in" rows="1" placeholder="Tulis pesanmu…"></textarea><button id="send">➤</button></div>
+  <div class="note">AI bisa keliru. Periksa kembali informasi penting.</div></footer>
+</div>
+
+<script>
+const $=s=>document.querySelector(s),chat=$('#chat'),inp=$('#in'),sendBtn=$('#send');
+let history=[],busy=false;
+const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+function md(t){return esc(t).replace(/```(\w*)\n?([\s\S]*?)```/g,(_,l,c)=>'<pre><code>'+c.trim()+'</code></pre>').replace(/`([^`\n]+)`/g,'<code>$1</code>').replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>').replace(/\n/g,'<br>').replace(/<\/pre><br>/g,'</pre>').replace(/<br><pre>/g,'<pre>')}
+function save(){try{localStorage.setItem('lelouch',JSON.stringify(history.slice(-40)))}catch(e){}}
+function add(role,html){
+  $('#hero')&&$('#hero').remove();
+  const d=document.createElement('div');d.className='msg '+(role==='user'?'u':'a');
+  d.innerHTML=role==='user'?'<div class="bub">'+html+'</div>':'<div class="av">✦</div><div class="col"><div class="bub">'+html+'</div><div class="tools"><button class="tbtn" data-a="copy">Salin</button></div></div>';
+  chat.appendChild(d);$('#main').scrollTo({top:1e9,behavior:'smooth'});return d.querySelector('.bub');
+}
+
+// Otak cadangan (dipakai jika API tidak tersedia)
+function local(q){
+  const t=q.toLowerCase(),has=(...k)=>k.some(x=>t.includes(x)),pick=a=>a[Math.floor(Math.random()*a.length)];
+  const m=t.replace(/x|×/g,'*').replace(/:/g,'/').match(/^[\d\s+\-*/().,%]+$/);
+  if(m&&/\d/.test(t)&&/[+\-*/]/.test(t)){try{const r=Function('"use strict";return ('+m[0].replace(/,/g,'.')+')')();if(isFinite(r))return 'Hasilnya **'+r+'**.'}catch(e){}}
+  if(has('siapa kamu','kamu siapa','nama kamu'))return 'Saya **Lelouch AI**, asisten penjelajah galaksi. Saya membantu menyusun rencana, ide, tulisan, dan kode, selalu beberapa langkah ke depan.';
+  if(/^(hai|halo|hello|hi|hey|p|permisi|selamat)/.test(t))return pick(['Halo. Roket sudah siap. Ke mana kita menjelajah?','Hai. Ceritakan tujuanmu, saya susun strateginya.']);
+  if(has('terima kasih','makasih','thanks'))return 'Sama-sama. Selamat menjelajah.';
+  if(has('jam berapa','pukul berapa'))return 'Sekarang pukul **'+new Date().toLocaleTimeString('id-ID')+'**.';
+  if(has('tanggal','hari ini','hari apa'))return 'Hari ini **'+new Date().toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'})+'**.';
+  if(has('lelucon','joke','lawak','bercanda'))return pick(['Kenapa programmer suka gelap? Karena light attracts bugs.','Kenapa komputer suka luar angkasa? Karena di sana banyak space.','Ada 10 tipe orang: yang paham biner dan yang tidak.']);
+  if(has('rencana','strategi','belajar','jadwal'))return 'Kerangka rencana 3 langkah:\n**1. Tentukan target** yang jelas dan terukur.\n**2. Pecah menjadi tahap** mingguan dengan tugas kecil.\n**3. Evaluasi tiap akhir pekan** lalu sesuaikan langkahmu.\nBeri tahu targetmu, dan saya detailkan.';
+  if(has('html','website','web sederhana'))return 'Kerangka HTML sederhana:\n```html\n<!DOCTYPE html>\n<html lang="id">\n<head>\n  <meta charset="utf-8">\n  <title>Halaman Saya</title>\n</head>\n<body>\n  <h1>Halo Dunia</h1>\n</body>\n</html>\n```\nMau saya tambahkan CSS bergaya gelap dan elegan?';
+  if(has('javascript','js','kode','coding','program'))return 'Siap. Sebutkan bahasa dan tujuannya, misalnya "fungsi JavaScript untuk menghitung diskon", dan saya buatkan contohnya.';
+  if(has('bisnis','usaha','jualan','cuan'))return 'Ide bisnis online:\n**1.** Jasa desain (logo, banner, template)\n**2.** Produk digital (preset, e-book, script)\n**3.** Dropship niche tertentu\n**4.** Jasa pembuatan bot atau website\nPilih yang paling dekat dengan keahlianmu, mulai dari penawaran kecil.';
+  return pick(['Menarik. Jelaskan tujuanmu sedikit lebih detail agar strateginya tepat.','Saya perlu konteks lebih. Apa hasil akhir yang kamu inginkan?','Mode cadangan saya terbatas pada topik umum. Coba tanyakan rencana, kode dasar, hitungan, atau lelucon.']);
+}
+
+async function ai(q){
+  try{
+    const c=new AbortController(),to=setTimeout(()=>c.abort(),25000);
+    const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},signal:c.signal,body:JSON.stringify({messages:history.slice(-12)})});
+    clearTimeout(to);const j=await r.json();
+    if(j.reply){$('#mode').textContent='Online';return j.reply}
+  }catch(e){}
+  $('#mode').textContent='Mode cadangan';
+  await new Promise(r=>setTimeout(r,500+Math.random()*500));
+  return local(q);
+}
+
+async function send(text){
+  text=(text||inp.value).trim();if(!text||busy)return;
+  busy=true;sendBtn.disabled=true;inp.value='';inp.style.height='auto';
+  add('user',md(text));history.push({role:'user',content:text});
+  const b=add('ai','<span class="typing"><span></span><span></span><span></span><em>memindai galaksi…</em></span>');
+  const ans=await ai(text);
+  history.push({role:'assistant',content:ans});save();
+  b.innerHTML='';let i=0;const step=Math.max(2,Math.ceil(ans.length/90));
+  const iv=setInterval(()=>{i+=step;b.innerHTML=md(ans.slice(0,i));$('#main').scrollTo({top:1e9});
+    if(i>=ans.length){clearInterval(iv);b.innerHTML=md(ans);busy=false;sendBtn.disabled=false;inp.focus()}},16);
+}
+sendBtn.onclick=()=>send();
+inp.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}});
+inp.addEventListener('input',()=>{inp.style.height='auto';inp.style.height=inp.scrollHeight+'px'});
+$('#clear').onclick=()=>{try{localStorage.removeItem('lelouch')}catch(e){}location.reload()};
+
+function go(c){$('#landing').classList.toggle('hide',c);$('#app').classList.toggle('hide',!c);if(c){$('#main').scrollTo(0,1e9);inp.focus()}else $('#landing').scrollTo(0,0)}
+document.addEventListener('click',e=>{const b=e.target;
+  if(b.classList.contains('chip'))return send(b.textContent);
+  if(b.dataset.a==='copy'){navigator.clipboard&&navigator.clipboard.writeText(b.closest('.col').querySelector('.bub').innerText);b.textContent='Tersalin ✓';setTimeout(()=>b.textContent='Salin',1500);return}
+  const t=b.closest('[data-go],[data-sc]');if(!t)return;
+  if(t.dataset.go)go(t.dataset.go==='chat');else{const el=document.getElementById(t.dataset.sc);el&&el.scrollIntoView({behavior:'smooth'})}});
+
+try{const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}}),{threshold:.12});
+  document.querySelectorAll('.rv').forEach((el,i)=>{el.style.transitionDelay=(i%4)*70+'ms';io.observe(el)})}catch(e){document.querySelectorAll('.rv').forEach(el=>el.classList.add('in'))}
+
+// bintang & rasi
+(function(){const c=$('#bg'),x=c.getContext('2d');let w,h,st=[],sh=null;
+  const cols=['#c7d2fe','#a5b4fc','#ec4899','#60a5fa'];
+  function rs(){w=c.width=innerWidth;h=c.height=innerHeight;st=Array.from({length:Math.min(110,w/9|0)},()=>({x:Math.random()*w,y:Math.random()*h,r:Math.random()*1.3+.3,a:Math.random()*6,t:Math.random()*.02+.006,vx:(Math.random()-.5)*.08,vy:(Math.random()-.5)*.08,c:cols[Math.random()*4|0]}))}
+  rs();addEventListener('resize',rs);
+  (function f(){x.clearRect(0,0,w,h);
+    st.forEach(q=>{q.x+=q.vx;q.y+=q.vy;if(q.x<0)q.x=w;if(q.x>w)q.x=0;if(q.y<0)q.y=h;if(q.y>h)q.y=0;q.a+=q.t});
+    x.lineWidth=.6;x.strokeStyle='#a5b4fc';
+    for(let i=0;i<st.length;i++)for(let j=i+1;j<st.length;j++){const a=st[i],b=st[j],d=Math.hypot(a.x-b.x,a.y-b.y);if(d<90){x.globalAlpha=(1-d/90)*.25;x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);x.stroke()}}
+    st.forEach(q=>{x.globalAlpha=.35+.6*Math.abs(Math.sin(q.a));x.fillStyle=q.c;x.beginPath();x.arc(q.x,q.y,q.r,0,7);x.fill()});
+    if(!sh&&Math.random()<.004)sh={x:Math.random()*w*.6,y:Math.random()*h*.4,l:0};
+    if(sh){sh.x+=9;sh.y+=4;sh.l++;x.globalAlpha=Math.max(0,1-sh.l/40);const g=x.createLinearGradient(sh.x,sh.y,sh.x-70,sh.y-31);g.addColorStop(0,'#fff');g.addColorStop(1,'transparent');x.strokeStyle=g;x.lineWidth=1.5;x.beginPath();x.moveTo(sh.x,sh.y);x.lineTo(sh.x-70,sh.y-31);x.stroke();if(sh.l>40)sh=null}
+    requestAnimationFrame(f)})()})();
+
+// pulihkan riwayat
+try{const s=JSON.parse(localStorage.getItem('lelouch')||'[]');history=s;s.forEach(x=>add(x.role==='user'?'user':'ai',md(x.content)))}catch(e){}
+</script>
+</body>
+</html>
